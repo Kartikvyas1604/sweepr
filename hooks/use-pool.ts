@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
-import type { Pool, Participant, Match } from "@/lib/types";
+import { useState, useCallback, useMemo, useRef } from "react";
+import type { Pool, Participant } from "@/lib/types";
 import { TEAMS } from "@/lib/types";
 
 interface UsePoolReturn {
@@ -26,13 +26,12 @@ export function usePool(initialPool: Pool): UsePoolReturn {
   const [pool] = useState<Pool>(initialPool);
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [availableTeams] = useState(() => shuffleArray(TEAMS));
-
-  const teamIndexRef = useState(0);
+  const teamIndexRef = useRef(0);
 
   const addParticipant = useCallback(
     (name: string, walletAddress: string): Participant => {
-      const idx = teamIndexRef[0];
-      teamIndexRef[0] = (idx + 1) % availableTeams.length;
+      const idx = teamIndexRef.current;
+      teamIndexRef.current = (idx + 1) % availableTeams.length;
       const team = availableTeams[idx];
 
       const newParticipant: Participant = {
@@ -41,7 +40,7 @@ export function usePool(initialPool: Pool): UsePoolReturn {
         walletAddress,
         team,
         score: 0,
-        rank: participants.length + 1,
+        rank: 0,
       };
 
       setParticipants((prev) => {
@@ -51,7 +50,7 @@ export function usePool(initialPool: Pool): UsePoolReturn {
 
       return newParticipant;
     },
-    [availableTeams, participants.length],
+    [availableTeams],
   );
 
   const updateScore = useCallback(

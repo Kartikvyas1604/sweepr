@@ -2,7 +2,6 @@
 
 import { useState, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { cn } from "@/lib/utils";
 import { TEAMS, type Team } from "@/lib/types";
 import { Button } from "./button";
 import { Sparkles } from "lucide-react";

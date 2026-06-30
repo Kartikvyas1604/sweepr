@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { TopNav } from "@/components/ui/top-nav";
@@ -37,12 +37,6 @@ const MOCK_POOLS = [
     yourRank: 3,
   },
 ];
-
-const STATUS_COLORS = {
-  open: "text-escrow border-escrow/20 bg-escrow/10" as const,
-  active: "text-flare border-flare/20 bg-flare/10" as const,
-  settled: "text-success border-success/20 bg-success/10" as const,
-};
 
 export default function PoolsPage() {
   return (

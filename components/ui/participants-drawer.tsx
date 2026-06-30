@@ -1,7 +1,6 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { cn } from "@/lib/utils";
 import type { Participant } from "@/lib/types";
 import { Users, X } from "lucide-react";
 

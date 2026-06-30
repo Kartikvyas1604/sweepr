@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -9,13 +9,13 @@ import { Button } from "@/components/ui/button";
 import { formatAddress } from "@/lib/utils";
 import { TopNav } from "@/components/ui/top-nav";
 import {
-  Trophy,
   Coins,
   ExternalLink,
   CheckCircle2,
   PartyPopper,
   Lock,
   Unlock,
+  ArrowRight,
 } from "lucide-react";
 
 const WINNER = {
@@ -58,6 +58,20 @@ export default function SettlePage() {
     };
   }, []);
 
+  const confettiParticles = useMemo(
+    () =>
+      Array.from({ length: 30 }, (_, i) => ({
+        id: i,
+        left: `${(i * 3.7 + 13) % 100}%`,
+        color: ["#FF6B35", "#F7D44A", "#4ADE80", "#4A90D9", "#F0F0E8"][i % 5],
+        targetLeft: `${(i * 7.1 + 42) % 100}%`,
+        rotate: (i * 37 + 180) % 720,
+        duration: 3 + (i % 5) * 0.4,
+        delay: (i * 0.07) % 2,
+      })),
+    [],
+  );
+
   return (
     <div className="relative flex min-h-dvh flex-col overflow-hidden">
       {/* Animated background glow during completion */}
@@ -69,31 +83,24 @@ export default function SettlePage() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            {/* Simulated confetti particles */}
-            {[...Array(30)].map((_, i) => (
+            {confettiParticles.map((p) => (
               <motion.div
-                key={i}
+                key={p.id}
                 className="absolute h-2 w-2 rounded-sm"
                 style={{
-                  left: `${Math.random() * 100}%`,
+                  left: p.left,
                   top: `-5%`,
-                  backgroundColor: [
-                    "#FF6B35",
-                    "#F7D44A",
-                    "#4ADE80",
-                    "#4A90D9",
-                    "#F0F0E8",
-                  ][i % 5],
+                  backgroundColor: p.color,
                 }}
                 animate={{
                   top: "105%",
-                  left: `${Math.random() * 100}%`,
-                  rotate: Math.random() * 720,
+                  left: p.targetLeft,
+                  rotate: p.rotate,
                 }}
                 transition={{
-                  duration: 3 + Math.random() * 2,
+                  duration: p.duration,
                   repeat: Infinity,
-                  delay: Math.random() * 2,
+                  delay: p.delay,
                   ease: "linear",
                 }}
               />
@@ -367,7 +374,7 @@ export default function SettlePage() {
 
                     <Button size="lg" className="w-full" variant="primary">
                       View Pool Recap
-                      <ArrowLeft className="h-4 w-4 rotate-180" />
+                      <ArrowRight className="h-4 w-4" />
                     </Button>
                   </CardContent>
                 </Card>

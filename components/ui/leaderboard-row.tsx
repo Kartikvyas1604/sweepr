@@ -1,10 +1,9 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import type { Participant } from "@/lib/types";
-import { Badge } from "./badge";
 
 interface LeaderboardRowProps {
   participant: Participant;
@@ -19,10 +18,17 @@ function LeaderboardRow({
   isCurrentUser,
   highlight,
 }: LeaderboardRowProps) {
+  const [scoreChanged, setScoreChanged] = useState(false);
   const prevScoreRef = useRef(participant.score);
 
-  const scoreChanged = prevScoreRef.current !== participant.score;
-  prevScoreRef.current = participant.score;
+  useEffect(() => {
+    if (prevScoreRef.current !== participant.score) {
+      setScoreChanged(true);
+      prevScoreRef.current = participant.score;
+      const timer = setTimeout(() => setScoreChanged(false), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [participant.score]);
 
   return (
     <motion.div

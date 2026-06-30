@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -24,7 +23,6 @@ const MOCK_POOL = {
 };
 
 export default function JoinPage() {
-  const params = useParams();
   const [step, setStep] = useState<"name" | "draw" | "confirm">("name");
   const [name, setName] = useState("");
   const [assignedTeam, setAssignedTeam] = useState<Team | null>(null);
