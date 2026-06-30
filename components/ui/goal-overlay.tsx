@@ -44,7 +44,7 @@ function GoalOverlay({ show, scorerName, teamFlag }: GoalOverlayProps) {
                   className="font-display text-7xl uppercase tracking-[0.15em] text-white sm:text-8xl"
                   style={{
                     textShadow:
-                      "0 0 20px rgba(235,86,0,0.5), 0 0 60px rgba(235,86,0,0.3)",
+                      "0 0 20px rgba(255,90,31,0.5), 0 0 60px rgba(255,90,31,0.3)",
                   }}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}

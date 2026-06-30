@@ -11,6 +11,8 @@ export interface Pool {
   expiresAt: Date;
   isPrivate: boolean;
   passphrase: string;
+  winnerAddresses?: string[];
+  settledAt?: Date;
 }
 
 export interface Participant {

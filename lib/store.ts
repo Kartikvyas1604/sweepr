@@ -88,6 +88,39 @@ export function getPoolWithParticipants(poolId: string): {
   return { pool, participants };
 }
 
+export function settlePool(poolId: string): void {
+  const pools = getPools();
+  const index = pools.findIndex((p) => p.id === poolId);
+  if (index === -1) return;
+
+  const participants = getParticipantsForPool(poolId);
+  const sorted = [...participants].sort((a, b) => b.score - a.score);
+  sorted.forEach((p, i) => { p.rank = i + 1; });
+  localStorage.setItem(`${PARTICIPANTS_KEY}_${poolId}`, JSON.stringify(sorted));
+
+  const winners = sorted.filter((p) => p.rank === 1);
+  pools[index].status = "settled";
+  pools[index].winnerAddresses = winners.map((w) => w.walletAddress);
+  pools[index].settledAt = new Date();
+  localStorage.setItem(POOLS_KEY, JSON.stringify(pools));
+}
+
+export function getPoolsForUser(walletAddress: string): Pool[] {
+  return getPools().filter((pool) => {
+    const participants = getParticipantsForPool(pool.id);
+    return participants.some((p) => p.walletAddress === walletAddress);
+  });
+}
+
+export function getParticipantInPool(
+  poolId: string,
+  walletAddress: string,
+): Participant | undefined {
+  return getParticipantsForPool(poolId).find(
+    (p) => p.walletAddress === walletAddress,
+  );
+}
+
 export function joinPool(
   poolId: string,
   name: string,

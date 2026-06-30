@@ -8,8 +8,8 @@ export default function manifest(): MetadataRoute.Manifest {
       "Create a World Cup sweepstakes pool, share a link, and let the smart contract settle the payout. No trust. No spreadsheets. Just vibes.",
     start_url: "/",
     display: "standalone",
-    background_color: "#0F1A0F",
-    theme_color: "#0F1A0F",
+background_color: "#0B1410",
+          theme_color: "#0B1410",
     icons: [
       { src: "/favicon.ico", sizes: "any", type: "image/x-icon" },
     ],

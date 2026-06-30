@@ -22,10 +22,13 @@ export default function PoolsPage() {
 
   return (
     <div className="relative flex min-h-dvh flex-col">
-      <TopNav title="My Pools" right={<WalletButton />} />
+      <TopNav
+        title="All Pools"
+        right={<WalletButton />}
+        onLogoClick={() => router.push("/")}
+      />
 
       <main className="relative z-10 mx-auto flex w-full max-w-4xl flex-1 flex-col gap-6 px-4 py-8">
-        {/* Header */}
         <motion.div
           className="flex items-center justify-between"
           initial={{ opacity: 0, y: -10 }}
@@ -33,10 +36,10 @@ export default function PoolsPage() {
         >
           <div>
             <h1 className="font-display text-2xl uppercase tracking-tight text-ink sm:text-3xl">
-              My Pools
+              All Pools
             </h1>
             <p className="mt-1 font-body text-sm text-ink-muted">
-              {pools.length} active {pools.length === 1 ? "pool" : "pools"}
+              {pools.length} pool{pools.length !== 1 ? "s" : ""} available
             </p>
           </div>
           <Button size="md" onClick={() => router.push("/")}>
@@ -45,7 +48,6 @@ export default function PoolsPage() {
           </Button>
         </motion.div>
 
-        {/* Pools list */}
         {pools.length === 0 ? (
           <motion.div
             initial={{ opacity: 0 }}
@@ -55,7 +57,7 @@ export default function PoolsPage() {
             <Users className="h-10 w-10 text-ink-muted/20" />
             <p className="font-body text-sm text-ink-muted/40">No pools yet</p>
             <Button size="sm" onClick={() => router.push("/")}>
-              Create your first pool
+              Create the first pool
             </Button>
           </motion.div>
         ) : (
@@ -77,9 +79,17 @@ export default function PoolsPage() {
                         <Users className="h-5 w-5 text-ink-muted" />
                       </div>
                       <div>
-                        <p className="font-body text-sm font-medium text-ink">
-                          {pool.name}
-                        </p>
+                        <div className="flex items-center gap-2">
+                          <p className="font-body text-sm font-medium text-ink">
+                            {pool.name}
+                          </p>
+                          {pool.status === "settled" && (
+                            <Badge variant="elevated" size="sm">Settled</Badge>
+                          )}
+                          {pool.status !== "settled" && (
+                            <Badge variant="live" size="sm">Open</Badge>
+                          )}
+                        </div>
                         <div className="mt-0.5 flex items-center gap-2 font-mono text-[10px] text-ink-muted/40">
                           <span>{pool.participantCount} players</span>
                           <span>·</span>

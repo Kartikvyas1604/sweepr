@@ -1,19 +1,19 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-base: #14120B;
-  --color-panel: #1B1913;
-  --color-elevated: #2A2822;
-  --color-ink: #EDECEC;
-  --color-ink-muted: #969592;
-  --color-accent: #EB5600;
-  --color-live: #EB5600;
+  --color-base: #0B1410;
+  --color-panel: #13241B;
+  --color-elevated: #1A3026;
+  --color-ink: #F4F1E8;
+  --color-ink-muted: #8FA396;
+  --color-accent: #FF5A1F;
+  --color-live: #FF5A1F;
   --color-money: #F2C94C;
-  --color-success: #4ADE80;
-  --color-hairline: rgba(150, 149, 146, 0.12);
+  --color-success: #34D399;
+  --color-hairline: rgba(143, 163, 150, 0.15);
 
   --font-display: "Bricolage Grotesque", sans-serif;
-  --font-body: "Plus Jakarta Sans", sans-serif;
+  --font-body: "Inter", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
 }
 
@@ -27,15 +27,15 @@
     background-image:
       radial-gradient(
         ellipse 80% 60% at 50% -10%,
-        rgba(150, 149, 146, 0.03) 0%,
+        rgba(143, 163, 150, 0.04) 0%,
         transparent 70%
       ),
       repeating-linear-gradient(
         0deg,
         transparent,
         transparent 40px,
-        rgba(150, 149, 146, 0.02) 40px,
-        rgba(150, 149, 146, 0.02) 41px
+        rgba(143, 163, 150, 0.015) 40px,
+        rgba(143, 163, 150, 0.015) 41px
       );
     color: var(--color-ink);
     font-family: var(--font-body);

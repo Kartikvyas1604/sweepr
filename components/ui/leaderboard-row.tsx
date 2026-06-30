@@ -38,7 +38,7 @@ function LeaderboardRow({
         opacity: 1,
         x: 0,
         backgroundColor: highlight
-          ? "rgba(235, 86, 0, 0.08)"
+          ? "rgba(255, 90, 31, 0.08)"
           : scoreChanged
             ? "rgba(242, 201, 76, 0.08)"
             : "rgba(0,0,0,0)",

@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { WalletButton } from "./wallet-button";
-import { ArrowLeft, Menu } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 interface TopNavProps {
@@ -11,6 +11,7 @@ interface TopNavProps {
   backHref?: string;
   right?: React.ReactNode;
   className?: string;
+  onLogoClick?: () => void;
 }
 
 function TopNav({
@@ -19,6 +20,7 @@ function TopNav({
   backHref,
   right,
   className,
+  onLogoClick,
 }: TopNavProps) {
   const router = useRouter();
 
@@ -30,8 +32,8 @@ function TopNav({
       )}
     >
       <div className="mx-auto flex w-full max-w-4xl items-center justify-between">
-        <div className="flex items-center gap-3">
-          {showBack && (
+        <div className="flex w-24 items-center gap-3">
+          {showBack ? (
             <button
               onClick={() => (backHref ? router.push(backHref) : router.back())}
               className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-ink-muted transition-colors hover:text-ink"
@@ -39,13 +41,19 @@ function TopNav({
               <ArrowLeft className="h-3.5 w-3.5" />
               Back
             </button>
-          )}
-          {!showBack && (
+          ) : onLogoClick ? (
             <button
-              className="text-ink-muted/40 hover:text-ink-muted"
+              onClick={onLogoClick}
+              className="flex items-center gap-2 transition-opacity hover:opacity-80"
             >
-              <Menu className="h-4 w-4" />
+              <span className="font-display text-sm uppercase tracking-widest text-ink">
+                {title}
+              </span>
             </button>
+          ) : (
+            <span className="font-display text-sm uppercase tracking-widest text-ink">
+              {title}
+            </span>
           )}
         </div>
 
@@ -53,7 +61,7 @@ function TopNav({
           {title}
         </span>
 
-        <div className="flex items-center gap-3">
+        <div className="flex w-24 items-center justify-end gap-3">
           {right || <WalletButton />}
         </div>
       </div>

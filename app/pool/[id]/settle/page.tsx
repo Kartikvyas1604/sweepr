@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { formatAddress } from "@/lib/utils";
 import { TopNav } from "@/components/ui/top-nav";
+import { getPoolWithParticipants, settlePool } from "@/lib/store";
 import {
   Coins,
   ExternalLink,
@@ -17,16 +18,6 @@ import {
   Unlock,
   ArrowRight,
 } from "lucide-react";
-
-const WINNER = {
-  name: "Alex",
-  team: "Brazil",
-  flag: "🇧🇷",
-  score: 18,
-  walletAddress: "0x1234567890abcdef1234567890abcdef12345678",
-};
-
-const TX_HASH = "5KLix1R7dVhG6qQxYq3Yq8QKq3Yq8QKq3Yq8QKq3Yq8Q";
 
 enum Phase {
   Locked = "locked",
@@ -41,6 +32,14 @@ export default function SettlePage() {
   const router = useRouter();
   const [phase, setPhase] = useState<Phase>(Phase.Locked);
   const [showConfetti, setShowConfetti] = useState(false);
+  const [settled, setSettled] = useState(false);
+
+  const { pool, participants } = getPoolWithParticipants(params.id as string);
+  const sorted = useMemo(
+    () => [...participants].sort((a, b) => b.score - a.score),
+    [participants],
+  );
+  const winner = sorted[0];
 
   useEffect(() => {
     const t1 = setTimeout(() => setPhase(Phase.Unlocking), 1000);
@@ -49,22 +48,25 @@ export default function SettlePage() {
     const t4 = setTimeout(() => {
       setPhase(Phase.Complete);
       setShowConfetti(true);
+      if (!settled) {
+        settlePool(params.id as string);
+        setSettled(true);
+      }
     }, 5500);
-
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);
       clearTimeout(t3);
       clearTimeout(t4);
     };
-  }, []);
+  }, [params.id, settled]);
 
   const confettiParticles = useMemo(
     () =>
       Array.from({ length: 30 }, (_, i) => ({
         id: i,
         left: `${(i * 3.7 + 13) % 100}%`,
-        color: ["#EB5600", "#F7D44A", "#4ADE80", "#969592", "#EDECEC"][i % 5],
+        color: ["#FF5A1F", "#F2C94C", "#34D399", "#8FA396", "#F4F1E8"][i % 5],
         targetLeft: `${(i * 7.1 + 42) % 100}%`,
         rotate: (i * 37 + 180) % 720,
         duration: 3 + (i % 5) * 0.4,
@@ -75,7 +77,6 @@ export default function SettlePage() {
 
   return (
     <div className="relative flex min-h-dvh flex-col overflow-hidden">
-      {/* Animated background glow during completion */}
       <AnimatePresence>
         {showConfetti && (
           <motion.div
@@ -90,7 +91,7 @@ export default function SettlePage() {
                 className="absolute h-2 w-2 rounded-sm"
                 style={{
                   left: p.left,
-                  top: `-5%`,
+                  top: "-5%",
                   backgroundColor: p.color,
                 }}
                 animate={{
@@ -115,7 +116,6 @@ export default function SettlePage() {
       <main className="relative z-10 flex flex-1 items-center justify-center px-4 py-12">
         <div className="w-full max-w-lg">
           <AnimatePresence mode="wait">
-            {/* Phase: Locked / Escrow vault */}
             {phase === Phase.Locked && (
               <motion.div
                 key="locked"
@@ -166,7 +166,6 @@ export default function SettlePage() {
               </motion.div>
             )}
 
-            {/* Phase: Unlocking */}
             {phase === Phase.Unlocking && (
               <motion.div
                 key="unlocking"
@@ -197,8 +196,7 @@ export default function SettlePage() {
               </motion.div>
             )}
 
-            {/* Phase: Winner Reveal */}
-            {phase === Phase.WinnerReveal && (
+            {phase === Phase.WinnerReveal && winner && (
               <motion.div
                 key="winner"
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -227,7 +225,7 @@ export default function SettlePage() {
                         animate={{ scale: [1, 1.1, 1] }}
                         transition={{ duration: 2, repeat: Infinity }}
                       >
-                        {WINNER.flag}
+                        {winner.team.flag}
                       </motion.span>
                     </motion.div>
                     <motion.div
@@ -237,10 +235,10 @@ export default function SettlePage() {
                       transition={{ delay: 0.3 }}
                     >
                       <p className="font-display text-3xl uppercase tracking-tight text-money">
-                        {WINNER.name}
+                        {winner.name}
                       </p>
                       <p className="mt-1 font-body text-sm text-ink-muted">
-                        {WINNER.team} · {WINNER.score} points
+                        {winner.team.name} · {winner.score} points
                       </p>
                     </motion.div>
                     <motion.div
@@ -258,7 +256,6 @@ export default function SettlePage() {
               </motion.div>
             )}
 
-            {/* Phase: Payout Confirming */}
             {phase === Phase.PayoutConfirm && (
               <motion.div
                 key="confirming"
@@ -296,7 +293,6 @@ export default function SettlePage() {
               </motion.div>
             )}
 
-            {/* Phase: Complete */}
             {phase === Phase.Complete && (
               <motion.div
                 key="complete"
@@ -327,48 +323,43 @@ export default function SettlePage() {
                       </p>
                     </div>
 
-                    {/* Payout breakdown */}
                     <div className="w-full space-y-2 rounded-lg bg-elevated/30 px-4 py-4">
                       <div className="flex items-center justify-between font-mono text-xs text-ink-muted">
                         <span>Total Pot</span>
-                        <span className="tabular-nums text-ink">80 USDC</span>
+                        <span className="tabular-nums text-ink">{pool?.totalPot ?? 0} USDC</span>
                       </div>
                       <div className="flex items-center justify-between font-mono text-xs text-ink-muted">
                         <span>Sweepr Fee (2.5%)</span>
-                        <span className="tabular-nums text-ink">2 USDC</span>
+                        <span className="tabular-nums text-ink">
+                          {((pool?.totalPot ?? 0) * 0.025).toFixed(2)} USDC
+                        </span>
                       </div>
                       <div className="border-t border-hairline pt-2">
                         <div className="flex items-center justify-between font-mono text-sm">
                           <span className="text-success">Winner Payout</span>
                           <span className="tabular-nums font-medium text-success">
-                            78 USDC
+                            {((pool?.totalPot ?? 0) * 0.975).toFixed(2)} USDC
                           </span>
                         </div>
                       </div>
                     </div>
 
-                    {/* Transaction */}
                     <div className="w-full space-y-2">
                       <div className="flex items-center justify-between rounded-md bg-elevated/30 px-4 py-2.5">
                         <span className="font-mono text-[10px] uppercase tracking-widest text-ink-muted/40">
                           Transaction
                         </span>
-                        <a
-                          href={`https://solscan.io/tx/${TX_HASH}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-1.5 font-mono text-xs text-accent transition-colors hover:text-accent/80"
-                        >
-                          {formatAddress(TX_HASH)}
+                        <span className="flex items-center gap-1.5 font-mono text-xs text-accent">
+                          {formatAddress("5KLix1R7dVhG6qQxYq3Yq8QKq3Yq8QKq3Yq8QKq3Yq8Q")}
                           <ExternalLink className="h-3 w-3" />
-                        </a>
+                        </span>
                       </div>
                       <div className="flex items-center justify-between rounded-md bg-elevated/30 px-4 py-2.5">
                         <span className="font-mono text-[10px] uppercase tracking-widest text-ink-muted/40">
                           Winner
                         </span>
                         <span className="font-mono text-xs text-ink">
-                          {WINNER.name} · {formatAddress(WINNER.walletAddress)}
+                          {winner?.name} · {winner ? formatAddress(winner.walletAddress) : ""}
                         </span>
                       </div>
                     </div>
@@ -377,9 +368,9 @@ export default function SettlePage() {
                       size="lg"
                       className="w-full"
                       variant="primary"
-                      onClick={() => router.push(`/pool/${params.id}`)}
+                      onClick={() => router.push(`/dashboard`)}
                     >
-                      View Pool Recap
+                      View Dashboard
                       <ArrowRight className="h-4 w-4" />
                     </Button>
                   </CardContent>
