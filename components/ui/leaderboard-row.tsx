@@ -1,0 +1,154 @@
+"use client";
+
+import { useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { cn } from "@/lib/utils";
+import type { Participant } from "@/lib/types";
+import { Badge } from "./badge";
+
+interface LeaderboardRowProps {
+  participant: Participant;
+  rank: number;
+  isCurrentUser?: boolean;
+  highlight?: boolean;
+}
+
+function LeaderboardRow({
+  participant,
+  rank,
+  isCurrentUser,
+  highlight,
+}: LeaderboardRowProps) {
+  const prevScoreRef = useRef(participant.score);
+
+  const scoreChanged = prevScoreRef.current !== participant.score;
+  prevScoreRef.current = participant.score;
+
+  return (
+    <motion.div
+      layout
+      initial={{ opacity: 0, x: -20 }}
+      animate={{
+        opacity: 1,
+        x: 0,
+        backgroundColor: highlight
+          ? "rgba(255, 107, 53, 0.08)"
+          : scoreChanged
+            ? "rgba(247, 212, 74, 0.08)"
+            : "rgba(0,0,0,0)",
+      }}
+      transition={{
+        layout: { type: "spring", stiffness: 200, damping: 25 },
+        backgroundColor: { duration: 0.3 },
+      }}
+      className={cn(
+        "group flex items-center gap-3 border-b border-surface-border px-4 py-3 transition-colors sm:px-6",
+        isCurrentUser && "bg-flare/5",
+        highlight && "bg-flare/5",
+      )}
+    >
+      {/* Rank */}
+      <div className="flex w-8 items-center justify-center">
+        {rank <= 3 ? (
+          <span
+            className={cn(
+              "font-display text-lg",
+              rank === 1 && "text-goalnet",
+              rank === 2 && "text-chalk-muted",
+              rank === 3 && "text-flare/70",
+            )}
+          >
+            {rank === 1 ? "🥇" : rank === 2 ? "🥈" : "🥉"}
+          </span>
+        ) : (
+          <span className="font-mono text-xs text-chalk-muted/40">
+            {rank}
+          </span>
+        )}
+      </div>
+
+      {/* Flag + Name */}
+      <div className="flex min-w-0 flex-1 items-center gap-3">
+        <span className="text-lg">{participant.team.flag}</span>
+        <div className="min-w-0">
+          <p
+            className={cn(
+              "truncate font-body text-sm font-medium",
+              isCurrentUser
+                ? "text-flare"
+                : rank <= 3
+                  ? "text-chalk"
+                  : "text-chalk-muted",
+            )}
+          >
+            {participant.name}
+            {isCurrentUser && (
+              <span className="ml-2 font-mono text-[9px] uppercase tracking-widest text-flare/60">
+                (you)
+              </span>
+            )}
+          </p>
+          <p className="truncate font-mono text-[10px] text-chalk-muted/30">
+            {participant.team.name}
+          </p>
+        </div>
+      </div>
+
+      {/* Score */}
+      <div className="flex items-center gap-2">
+        <AnimatePresence mode="wait">
+          {scoreChanged ? (
+            <motion.div
+              key={participant.score}
+              initial={{ y: -12, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 12, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 15 }}
+              className="relative"
+            >
+              <span className="font-display text-2xl tabular-nums tracking-tight text-goalnet">
+                {participant.score}
+              </span>
+              {/* Score change indicator */}
+              <motion.span
+                initial={{ opacity: 1, y: 0 }}
+                animate={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="absolute -right-3 -top-0 font-display text-[10px] text-goalnet"
+              >
+                +1
+              </motion.span>
+            </motion.div>
+          ) : (
+            <motion.span
+              key="score"
+              className="font-display text-2xl tabular-nums tracking-tight text-chalk"
+            >
+              {participant.score}
+            </motion.span>
+          )}
+        </AnimatePresence>
+      </div>
+    </motion.div>
+  );
+}
+
+function LeaderboardHeader() {
+  return (
+    <div className="flex items-center gap-3 border-b border-surface-border px-4 py-2 sm:px-6">
+      <div className="w-8" />
+      <div className="flex-1">
+        <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-chalk-muted/40">
+          Participant
+        </span>
+      </div>
+      <div className="flex items-center gap-1">
+        <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-chalk-muted/40">
+          Pts
+        </span>
+      </div>
+    </div>
+  );
+}
+
+export { LeaderboardRow, LeaderboardHeader };
