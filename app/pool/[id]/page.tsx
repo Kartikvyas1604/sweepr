@@ -77,7 +77,7 @@ export default function PoolPage() {
         >
           <div className="flex items-center gap-3">
             <div>
-              <h1 className="font-display text-2xl uppercase tracking-tight text-chalk sm:text-3xl">
+              <h1 className="font-display text-2xl uppercase tracking-tight text-ink sm:text-3xl">
                 Office Cup 26
               </h1>
               <div className="mt-1 flex items-center gap-3">
@@ -132,8 +132,8 @@ export default function PoolPage() {
             <CardHeader>
               <div className="flex w-full items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Trophy className="h-4 w-4 text-goalnet" />
-                  <span className="font-display text-sm uppercase tracking-wider text-chalk">
+                  <Trophy className="h-4 w-4 text-money" />
+                  <span className="font-display text-sm uppercase tracking-wider text-ink">
                     Leaderboard
                   </span>
                 </div>
@@ -171,42 +171,42 @@ export default function PoolPage() {
             <CardHeader>
               <div className="flex items-center gap-2">
                 <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-flare opacity-60" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-flare" />
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-live opacity-60" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-live" />
                 </span>
-                <span className="font-display text-sm uppercase tracking-wider text-chalk">
+                <span className="font-display text-sm uppercase tracking-wider text-ink">
                   Live Matches
                 </span>
               </div>
             </CardHeader>
             <CardContent className="flex flex-col gap-2">
-              <div className="flex items-center justify-between rounded-md bg-chalk/5 px-4 py-3">
+              <div className="flex items-center justify-between rounded-md bg-ink/5 px-4 py-3">
                 <div className="flex items-center gap-3">
                   <span className="text-lg">🇧🇷</span>
-                  <span className="font-body text-sm font-medium text-chalk">Brazil</span>
+                  <span className="font-body text-sm font-medium text-ink">Brazil</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="font-display text-xl tabular-nums text-chalk">2</span>
-                  <span className="font-mono text-[10px] text-chalk-muted/40">vs</span>
-                  <span className="font-display text-xl tabular-nums text-chalk">1</span>
+                  <span className="font-display text-xl tabular-nums text-ink">2</span>
+                  <span className="font-mono text-[10px] text-ink-muted/40">vs</span>
+                  <span className="font-display text-xl tabular-nums text-ink">1</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="font-body text-sm font-medium text-chalk">Serbia</span>
+                  <span className="font-body text-sm font-medium text-ink">Serbia</span>
                   <span className="text-lg">🇷🇸</span>
                 </div>
               </div>
-              <div className="flex items-center justify-between rounded-md bg-chalk/5 px-4 py-3">
+              <div className="flex items-center justify-between rounded-md bg-ink/5 px-4 py-3">
                 <div className="flex items-center gap-3">
                   <span className="text-lg">🇦🇷</span>
-                  <span className="font-body text-sm font-medium text-chalk">Argentina</span>
+                  <span className="font-body text-sm font-medium text-ink">Argentina</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="font-display text-xl tabular-nums text-chalk">0</span>
-                  <span className="font-mono text-[10px] text-chalk-muted/40">vs</span>
-                  <span className="font-display text-xl tabular-nums text-chalk">0</span>
+                  <span className="font-display text-xl tabular-nums text-ink">0</span>
+                  <span className="font-mono text-[10px] text-ink-muted/40">vs</span>
+                  <span className="font-display text-xl tabular-nums text-ink">0</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="font-body text-sm font-medium text-chalk">Mexico</span>
+                  <span className="font-body text-sm font-medium text-ink">Mexico</span>
                   <span className="text-lg">🇲🇽</span>
                 </div>
               </div>

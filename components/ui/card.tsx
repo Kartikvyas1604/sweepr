@@ -17,7 +17,7 @@ function Card({
           default: "border border-hairline",
           bordered: "border-2 border-ink/10",
           elevated:
-            "border border-surface-border shadow-lg shadow-black/20",
+            "border border-hairline shadow-lg shadow-black/20",
         }[variant],
         className,
       )}
@@ -32,7 +32,7 @@ function CardHeader({
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn("flex items-center gap-3 px-5 py-4 border-b border-surface-border", className)}
+      className={cn("flex items-center gap-3 px-5 py-4 border-b border-hairline", className)}
       {...props}
     />
   );
@@ -52,7 +52,7 @@ function CardFooter({
   return (
     <div
       className={cn(
-        "flex items-center gap-3 px-5 py-4 border-t border-surface-border",
+        "flex items-center gap-3 px-5 py-4 border-t border-hairline",
         className,
       )}
       {...props}

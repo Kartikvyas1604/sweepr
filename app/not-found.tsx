@@ -16,17 +16,17 @@ export default function NotFound() {
         transition={{ duration: 0.5 }}
       >
         <motion.span
-          className="font-display text-8xl tabular-nums text-chalk-muted/20 sm:text-9xl"
+          className="font-display text-8xl tabular-nums text-ink-muted/20 sm:text-9xl"
           animate={{ opacity: [0.2, 0.4, 0.2] }}
           transition={{ duration: 3, repeat: Infinity }}
         >
           404
         </motion.span>
         <div>
-          <p className="font-display text-xl uppercase tracking-wider text-chalk">
+          <p className="font-display text-xl uppercase tracking-wider text-ink">
             No pitch found
           </p>
-          <p className="mt-2 font-body text-sm text-chalk-muted">
+          <p className="mt-2 font-body text-sm text-ink-muted">
             This pool doesn&apos;t exist — or the link expired.
           </p>
         </div>

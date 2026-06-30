@@ -38,12 +38,12 @@ export default function Home() {
   return (
     <div className="relative flex min-h-dvh flex-col">
       {/* Top ticker bar */}
-      <div className="relative z-10 flex h-8 items-center overflow-hidden border-b border-chalk/8 bg-pitch-light/60 px-4">
-        <div className="flex w-full items-center justify-between font-mono text-[10px] uppercase tracking-[0.2em] text-chalk-muted/60">
+      <div className="relative z-10 flex h-8 items-center overflow-hidden border-b border-hairline bg-panel/60 px-4">
+        <div className="flex w-full items-center justify-between font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted/60">
           <span className="flex items-center gap-2">
             <span className="relative flex h-1.5 w-1.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-flare opacity-60" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-flare" />
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-live opacity-60" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-live" />
             </span>
             LIVE ODDS
           </span>
@@ -66,17 +66,17 @@ export default function Home() {
             }}
           >
             <motion.div variants={STAGGER} custom={0}>
-              <div className="inline-flex items-center gap-3 rounded-full border border-chalk/10 bg-chalk/5 px-4 py-1.5 font-mono text-[10px] uppercase tracking-[0.25em] text-chalk-muted">
-                <Sparkles className="h-3 w-3 text-goalnet" />
+              <div className="inline-flex items-center gap-3 rounded-full border border-hairline bg-ink/5 px-4 py-1.5 font-mono text-[10px] uppercase tracking-[0.25em] text-ink-muted">
+                <Sparkles className="h-3 w-3 text-money" />
                 on-chain • trustless • instant
               </div>
             </motion.div>
 
             <motion.div variants={STAGGER} custom={1} className="flex flex-col items-center gap-2">
-              <h1 className="font-display text-7xl leading-none tracking-tight text-chalk sm:text-8xl md:text-9xl">
+              <h1 className="font-display text-7xl leading-none tracking-tight text-ink sm:text-8xl md:text-9xl">
                 SWEEPR
               </h1>
-              <p className="max-w-lg font-body text-base leading-relaxed text-chalk-muted sm:text-lg">
+              <p className="max-w-lg font-body text-base leading-relaxed text-ink-muted sm:text-lg">
                 Office pool, automated. Create a sweepstakes, share the link, and
                 the smart contract settles the winner — no spreadsheets, no
                 &ldquo;who has the cash?&rdquo; group chats.
@@ -88,13 +88,13 @@ export default function Home() {
                 {[...Array(4)].map((_, i) => (
                   <div
                     key={i}
-                    className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-pitch bg-pitch-light text-[10px] font-bold text-chalk-muted"
+                    className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-base bg-panel text-[10px] font-bold text-ink-muted"
                   >
                     {["🇧🇷", "🇦🇷", "🇫🇷", "🏴󠁧󠁢󠁥󠁮󠁧󠁿"][i]}
                   </div>
                 ))}
               </div>
-              <span className="font-mono text-[11px] text-chalk-muted">
+              <span className="font-mono text-[11px] text-ink-muted">
                 Join 1,234 active pools
               </span>
             </motion.div>
@@ -109,8 +109,8 @@ export default function Home() {
           >
             <Card variant="elevated">
               <CardHeader>
-                <div className="flex items-center gap-2 font-display text-sm uppercase tracking-wider text-chalk">
-                  <Trophy className="h-4 w-4 text-goalnet" />
+                <div className="flex items-center gap-2 font-display text-sm uppercase tracking-wider text-ink">
+                  <Trophy className="h-4 w-4 text-money" />
                   Start Your Pool
                 </div>
               </CardHeader>
@@ -139,7 +139,7 @@ export default function Home() {
                   Create Pool
                   <ArrowRight className="h-4 w-4" />
                 </Button>
-                <p className="text-center font-mono text-[10px] uppercase tracking-widest text-chalk-muted/40">
+                <p className="text-center font-mono text-[10px] uppercase tracking-widest text-ink-muted/40">
                   2.5% fee · escrow-secured · instant settlement
                 </p>
               </CardContent>
@@ -169,19 +169,19 @@ export default function Home() {
               >
                 <Card className="h-full text-center">
                   <CardContent className="flex flex-col items-center gap-3 py-6">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-chalk/5">
-                      <step.icon className="h-5 w-5 text-flare" />
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-ink/5">
+                      <step.icon className="h-5 w-5 text-live" />
                     </div>
                     <div>
-                      <p className="font-display text-sm uppercase tracking-wider text-chalk">
+                      <p className="font-display text-sm uppercase tracking-wider text-ink">
                         {step.label}
                       </p>
-                      <p className="mt-1 font-body text-xs leading-relaxed text-chalk-muted">
+                      <p className="mt-1 font-body text-xs leading-relaxed text-ink-muted">
                         {step.desc}
                       </p>
                     </div>
                     {i < STEPS.length - 1 && (
-                      <ArrowRight className="hidden h-4 w-4 text-chalk-muted/30 sm:block" />
+                      <ArrowRight className="hidden h-4 w-4 text-ink-muted/30 sm:block" />
                     )}
                   </CardContent>
                 </Card>
@@ -192,15 +192,15 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="relative z-10 border-t border-chalk/8 px-4 py-6">
+      <footer className="relative z-10 border-t border-hairline px-4 py-6">
         <div className="mx-auto flex max-w-4xl flex-col items-center justify-between gap-4 sm:flex-row">
           <div className="flex items-center gap-3">
-            <Lock className="h-3.5 w-3.5 text-escrow" />
-            <span className="font-mono text-[10px] uppercase tracking-widest text-chalk-muted/40">
+            <Lock className="h-3.5 w-3.5 text-money" />
+            <span className="font-mono text-[10px] uppercase tracking-widest text-ink-muted/40">
               Powered by Solana · Audited
             </span>
           </div>
-          <span className="font-mono text-[10px] text-chalk-muted/30">
+          <span className="font-mono text-[10px] text-ink-muted/30">
             SWEEPR © {new Date().getFullYear()}
           </span>
         </div>

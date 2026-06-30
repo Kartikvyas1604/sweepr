@@ -51,10 +51,10 @@ export default function JoinPage() {
                   <CardHeader>
                     <div className="flex w-full items-center justify-between">
                       <div>
-                        <p className="font-display text-lg uppercase tracking-wider text-chalk">
+                        <p className="font-display text-lg uppercase tracking-wider text-ink">
                           {pool.name}
                         </p>
-                        <p className="font-mono text-[10px] text-chalk-muted/40">
+                        <p className="font-mono text-[10px] text-ink-muted/40">
                           Join the pool
                         </p>
                       </div>
@@ -64,33 +64,33 @@ export default function JoinPage() {
                   <CardContent className="flex flex-col gap-6">
                     {/* Pool stats */}
                     <div className="grid grid-cols-3 gap-3">
-                      <div className="flex flex-col items-center gap-1 rounded-md bg-chalk/5 px-3 py-3">
-                        <DollarSign className="h-4 w-4 text-escrow" />
-                        <span className="font-mono text-sm font-medium text-chalk">
+                      <div className="flex flex-col items-center gap-1 rounded-md bg-ink/5 px-3 py-3">
+                        <DollarSign className="h-4 w-4 text-money" />
+                        <span className="font-mono text-sm font-medium text-ink">
                           {pool.entryFee}
                         </span>
-                        <span className="font-mono text-[9px] uppercase tracking-widest text-chalk-muted/40">
+                        <span className="font-mono text-[9px] uppercase tracking-widest text-ink-muted/40">
                           Buy-in
                         </span>
                       </div>
-                      <div className="flex flex-col items-center gap-1 rounded-md bg-chalk/5 px-3 py-3">
-                        <Users className="h-4 w-4 text-flare" />
-                        <span className="font-mono text-sm font-medium text-chalk">
+                      <div className="flex flex-col items-center gap-1 rounded-md bg-ink/5 px-3 py-3">
+                        <Users className="h-4 w-4 text-live" />
+                        <span className="font-mono text-sm font-medium text-ink">
                           {pool.participantCount}
                         </span>
-                        <span className="font-mono text-[9px] uppercase tracking-widest text-chalk-muted/40">
+                        <span className="font-mono text-[9px] uppercase tracking-widest text-ink-muted/40">
                           In
                         </span>
                       </div>
-                      <div className="flex flex-col items-center gap-1 rounded-md bg-chalk/5 px-3 py-3">
-                        <span className="font-mono text-[11px] font-medium tracking-wider text-goalnet">
+                      <div className="flex flex-col items-center gap-1 rounded-md bg-ink/5 px-3 py-3">
+                        <span className="font-mono text-[11px] font-medium tracking-wider text-money">
                           {countdown.days}d
                         </span>
-                        <div className="flex gap-1 font-mono text-[11px] font-medium text-goalnet">
+                        <div className="flex gap-1 font-mono text-[11px] font-medium text-money">
                           <span>{String(countdown.hours).padStart(2, "0")}h</span>
                           <span>{String(countdown.minutes).padStart(2, "0")}m</span>
                         </div>
-                        <span className="font-mono text-[9px] uppercase tracking-widest text-chalk-muted/40">
+                        <span className="font-mono text-[9px] uppercase tracking-widest text-ink-muted/40">
                           Left
                         </span>
                       </div>
@@ -114,7 +114,7 @@ export default function JoinPage() {
                       Join Pool — {pool.entryFee} USDC
                     </Button>
 
-                    <p className="text-center font-mono text-[10px] uppercase tracking-widest text-chalk-muted/30">
+                    <p className="text-center font-mono text-[10px] uppercase tracking-widest text-ink-muted/30">
                       Entry fee held in escrow. Refunded if no matches play.
                     </p>
                   </CardContent>
@@ -132,7 +132,7 @@ export default function JoinPage() {
                 <Card>
                   <CardHeader>
                     <div className="flex w-full items-center justify-between">
-                      <p className="font-display text-sm uppercase tracking-wider text-chalk">
+                      <p className="font-display text-sm uppercase tracking-wider text-ink">
                         Your Draw
                       </p>
                       <Badge variant="live" size="sm">
@@ -171,7 +171,7 @@ export default function JoinPage() {
                   </CardHeader>
                   <CardContent className="flex flex-col items-center gap-6 py-8">
                     <motion.div
-                      className="flex h-24 w-24 items-center justify-center rounded-full bg-goalnet/10"
+                      className="flex h-24 w-24 items-center justify-center rounded-full bg-money/10"
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
                       transition={{ type: "spring", stiffness: 200, damping: 12 }}
@@ -179,10 +179,10 @@ export default function JoinPage() {
                       <span className="text-4xl">{assignedTeam.flag}</span>
                     </motion.div>
                     <div className="text-center">
-                      <p className="font-display text-2xl uppercase tracking-wider text-goalnet">
+                      <p className="font-display text-2xl uppercase tracking-wider text-money">
                         {assignedTeam.name}
                       </p>
-                      <p className="mt-1 font-body text-sm text-chalk-muted">
+                      <p className="mt-1 font-body text-sm text-ink-muted">
                         You&apos;re cheering for {assignedTeam.name} this Cup.
                       </p>
                     </div>

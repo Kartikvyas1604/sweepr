@@ -4,7 +4,7 @@ export default function Loading() {
   return (
     <div className="flex min-h-dvh items-center justify-center">
       <div className="flex flex-col items-center gap-3">
-        <div className="flex gap-1 font-mono text-xs uppercase tracking-widest text-chalk-muted/40">
+        <div className="flex gap-1 font-mono text-xs uppercase tracking-widest text-ink-muted/40">
           <span
             className="animate-pulse"
             style={{ animationDelay: "0ms", animationDuration: "1.5s" }}

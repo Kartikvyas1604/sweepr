@@ -21,13 +21,13 @@ export default function Error({ reset }: ErrorProps) {
           animate={{ rotate: [0, 10, -10, 0] }}
           transition={{ duration: 1, repeat: Infinity }}
         >
-          <AlertTriangle className="h-16 w-16 text-flare/60" />
+          <AlertTriangle className="h-16 w-16 text-live/60" />
         </motion.div>
         <div>
-          <p className="font-display text-xl uppercase tracking-wider text-chalk">
+          <p className="font-display text-xl uppercase tracking-wider text-ink">
             Something went wrong
           </p>
-          <p className="mt-2 font-body text-sm text-chalk-muted">
+          <p className="mt-2 font-body text-sm text-ink-muted">
             The match data couldn&apos;t load. Try again.
           </p>
         </div>

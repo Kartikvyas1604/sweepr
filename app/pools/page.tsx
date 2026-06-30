@@ -53,10 +53,10 @@ export default function PoolsPage() {
           animate={{ opacity: 1, y: 0 }}
         >
           <div>
-            <h1 className="font-display text-2xl uppercase tracking-tight text-chalk sm:text-3xl">
+            <h1 className="font-display text-2xl uppercase tracking-tight text-ink sm:text-3xl">
               My Pools
             </h1>
-            <p className="mt-1 font-body text-sm text-chalk-muted">
+            <p className="mt-1 font-body text-sm text-ink-muted">
               {MOCK_POOLS.length} active pools
             </p>
           </div>
@@ -76,7 +76,7 @@ export default function PoolsPage() {
               transition={{ delay: i * 0.08, duration: 0.3 }}
             >
               <Card
-                className="cursor-pointer transition-all duration-200 hover:border-chalk/20 hover:bg-chalk/[0.02]"
+                className="cursor-pointer transition-all duration-200 hover:border-ink/20 hover:bg-ink/[0.02]"
                 onClick={() =>
                   router.push(
                     pool.status === "settled"
@@ -90,27 +90,27 @@ export default function PoolsPage() {
                     <div
                       className={`flex h-10 w-10 items-center justify-center rounded-full ${
                         pool.status === "active"
-                          ? "bg-flare/10"
+                          ? "bg-live/10"
                           : pool.status === "open"
-                            ? "bg-escrow/10"
+                            ? "bg-money/10"
                             : "bg-success/10"
                       }`}
                     >
                       {pool.status === "settled" ? (
                         <Trophy className={`h-5 w-5 ${
-                          pool.yourRank === 1 ? "text-goalnet" : "text-success"
+                          pool.yourRank === 1 ? "text-money" : "text-success"
                         }`} />
                       ) : (
                         <Users className={`h-5 w-5 ${
-                          pool.status === "active" ? "text-flare" : "text-escrow"
+                          pool.status === "active" ? "text-live" : "text-money"
                         }`} />
                       )}
                     </div>
                     <div>
-                      <p className="font-body text-sm font-medium text-chalk">
+                      <p className="font-body text-sm font-medium text-ink">
                         {pool.name}
                       </p>
-                      <div className="mt-0.5 flex items-center gap-2 font-mono text-[10px] text-chalk-muted/40">
+                      <div className="mt-0.5 flex items-center gap-2 font-mono text-[10px] text-ink-muted/40">
                         <span>{pool.participants} players</span>
                         <span>·</span>
                         <span>{pool.totalPot} USDC pot</span>
@@ -134,11 +134,11 @@ export default function PoolsPage() {
                       {pool.status}
                     </Badge>
                     {pool.yourRank && (
-                      <span className="font-display text-lg tabular-nums text-chalk-muted">
+                      <span className="font-display text-lg tabular-nums text-ink-muted">
                         #{pool.yourRank}
                       </span>
                     )}
-                    <ArrowRight className="h-4 w-4 text-chalk-muted/30" />
+                    <ArrowRight className="h-4 w-4 text-ink-muted/30" />
                   </div>
                 </CardContent>
               </Card>
