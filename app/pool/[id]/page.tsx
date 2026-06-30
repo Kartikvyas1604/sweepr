@@ -9,6 +9,7 @@ import { LiveIndicator } from "@/components/ui/live-indicator";
 import { EscrowStatus } from "@/components/ui/escrow-status";
 import { LeaderboardRow, LeaderboardHeader } from "@/components/ui/leaderboard-row";
 import { Button } from "@/components/ui/button";
+import { GoalOverlay } from "@/components/ui/goal-overlay";
 import type { Participant } from "@/lib/types";
 import { ArrowLeft, Share2, Trophy, Goal } from "lucide-react";
 
@@ -27,11 +28,14 @@ export default function PoolPage() {
   const params = useParams();
   const [participants, setParticipants] = useState(MOCK_PARTICIPANTS);
   const [lastGoal, setLastGoal] = useState<string | null>(null);
+  const [showGoalOverlay, setShowGoalOverlay] = useState(false);
+  const [lastScorer, setLastScorer] = useState({ name: "", flag: "" });
 
   // Mock goal event — simulates a TxLINE push
   const simulateGoal = useCallback(() => {
     const randomIndex = Math.floor(Math.random() * participants.length);
     const targetId = participants[randomIndex].id;
+    const scorer = participants[randomIndex];
 
     setParticipants((prev) =>
       prev
@@ -42,8 +46,13 @@ export default function PoolPage() {
         .map((p, i) => ({ ...p, rank: i + 1 })),
     );
 
+    setLastScorer({ name: scorer.name, flag: scorer.team.flag });
     setLastGoal(targetId);
-    setTimeout(() => setLastGoal(null), 1500);
+    setShowGoalOverlay(true);
+    setTimeout(() => {
+      setLastGoal(null);
+      setShowGoalOverlay(false);
+    }, 2000);
   }, [participants]);
 
   return (
@@ -204,6 +213,13 @@ export default function PoolPage() {
           </Card>
         </motion.div>
       </main>
+
+      {/* Goal overlay */}
+      <GoalOverlay
+        show={showGoalOverlay}
+        scorerName={lastScorer.name}
+        teamFlag={lastScorer.flag}
+      />
     </div>
   );
 }
