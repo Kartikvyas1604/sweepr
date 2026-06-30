@@ -54,10 +54,10 @@ function TeamAssignment({ onAssigned, participantName }: TeamAssignmentProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <div className="flex h-28 w-28 items-center justify-center rounded-full border-2 border-dashed border-chalk/20">
-              <span className="font-display text-4xl text-chalk-muted/40">?</span>
+            <div className="flex h-28 w-28 items-center justify-center rounded-full border-2 border-dashed border-ink/20">
+              <span className="font-display text-4xl text-ink-muted/40">?</span>
             </div>
-            <p className="text-center font-body text-sm leading-relaxed text-chalk-muted">
+            <p className="text-center font-body text-sm leading-relaxed text-ink-muted">
               {participantName}, tap the button to draw your team.
               <br />
               Each team is randomly assigned — no takebacks.
@@ -78,16 +78,16 @@ function TeamAssignment({ onAssigned, participantName }: TeamAssignmentProps) {
             exit={{ opacity: 0 }}
           >
             <motion.div
-              className="flex h-36 w-36 items-center justify-center rounded-full border-2 border-flare/30 bg-flare/5"
+              className="flex h-36 w-36 items-center justify-center rounded-full border-2 border-live/30 bg-live/5"
               animate={{ scale: [1, 1.05, 1], rotate: [0, 3, -3, 0] }}
               transition={{ duration: 0.2, repeat: Infinity }}
             >
               <span className="text-5xl">{currentTeam.flag}</span>
             </motion.div>
-            <p className="font-display text-xl uppercase tracking-wider text-flare">
+            <p className="font-display text-xl uppercase tracking-wider text-live">
               {currentTeam.name}
             </p>
-            <p className="font-mono text-[10px] uppercase tracking-widest text-chalk-muted/40">
+            <p className="font-mono text-[10px] uppercase tracking-widest text-ink-muted/40">
               Group {currentTeam.group}
             </p>
           </motion.div>
@@ -102,7 +102,7 @@ function TeamAssignment({ onAssigned, participantName }: TeamAssignmentProps) {
             transition={{ type: "spring", stiffness: 200, damping: 15 }}
           >
             <motion.div
-              className="flex h-40 w-40 items-center justify-center rounded-full border-2 border-goalnet/40 bg-goalnet/10"
+              className="flex h-40 w-40 items-center justify-center rounded-full border-2 border-money/40 bg-money/10"
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ type: "spring", stiffness: 300, damping: 12, delay: 0.1 }}
@@ -117,10 +117,10 @@ function TeamAssignment({ onAssigned, participantName }: TeamAssignmentProps) {
               </motion.span>
             </motion.div>
             <div className="flex flex-col items-center gap-1">
-              <p className="font-display text-2xl uppercase tracking-wider text-goalnet">
+              <p className="font-display text-2xl uppercase tracking-wider text-money">
                 {currentTeam.name}
               </p>
-              <p className="font-mono text-[10px] uppercase tracking-widest text-chalk-muted/40">
+              <p className="font-mono text-[10px] uppercase tracking-widest text-ink-muted/40">
                 Group {currentTeam.group}
               </p>
             </div>

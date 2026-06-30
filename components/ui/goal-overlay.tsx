@@ -21,7 +21,7 @@ function GoalOverlay({ show, scorerName, teamFlag }: GoalOverlayProps) {
         >
           {/* Flash layer */}
           <motion.div
-            className="absolute inset-0 bg-flare/10"
+            className="absolute inset-0 bg-live/10"
             initial={{ opacity: 0 }}
             animate={{ opacity: [0, 1, 0] }}
             exit={{ opacity: 0 }}
@@ -37,7 +37,7 @@ function GoalOverlay({ show, scorerName, teamFlag }: GoalOverlayProps) {
             transition={{ type: "spring", stiffness: 200, damping: 12 }}
           >
             <motion.span
-              className="font-display text-8xl uppercase tracking-tight text-flare drop-shadow-[0_0_40px_rgba(255,107,53,0.5)] sm:text-9xl"
+              className="font-display text-8xl uppercase tracking-tight text-live drop-shadow-[0_0_40px_rgba(255,90,31,0.5)] sm:text-9xl"
               animate={{ scale: [1, 1.05, 1] }}
               transition={{ duration: 0.3, repeat: 2 }}
             >
@@ -50,7 +50,7 @@ function GoalOverlay({ show, scorerName, teamFlag }: GoalOverlayProps) {
               transition={{ delay: 0.2 }}
             >
               <span className="text-2xl">{teamFlag}</span>
-              <span className="font-display text-xl uppercase tracking-wider text-chalk">
+              <span className="font-display text-xl uppercase tracking-wider text-ink">
                 {scorerName}
               </span>
             </motion.div>

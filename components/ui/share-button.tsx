@@ -25,7 +25,7 @@ function ShareButton({ poolId, className }: ShareButtonProps) {
       onClick={handleCopy}
       className={cn(
         "relative flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider transition-colors",
-        copied ? "text-success" : "text-chalk-muted hover:text-chalk",
+        copied ? "text-success" : "text-ink-muted hover:text-ink",
         className,
       )}
     >

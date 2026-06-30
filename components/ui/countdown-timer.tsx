@@ -25,16 +25,16 @@ function CountdownTimer({
   }[size];
 
   const labelClass = {
-    sm: "font-mono text-[8px] uppercase tracking-widest text-chalk-muted/40",
-    md: "font-mono text-[9px] uppercase tracking-widest text-chalk-muted/40",
-    lg: "font-mono text-[10px] uppercase tracking-widest text-chalk-muted/40",
+    sm: "font-mono text-[8px] uppercase tracking-widest text-ink-muted/40",
+    md: "font-mono text-[9px] uppercase tracking-widest text-ink-muted/40",
+    lg: "font-mono text-[10px] uppercase tracking-widest text-ink-muted/40",
   }[size];
 
   if (countdown.isExpired) {
     return (
       <span
         className={cn(
-          "font-mono text-xs uppercase tracking-wider text-flare",
+          "font-mono text-xs uppercase tracking-wider text-live",
           className,
         )}
       >
@@ -56,11 +56,11 @@ function CountdownTimer({
         <span className={unitClass}>
           {String(countdown.hours).padStart(2, "0")}
         </span>
-        <span className={cn(unitClass, "text-chalk-muted/30")}>:</span>
+        <span className={cn(unitClass, "text-ink-muted/30")}>:</span>
         <span className={unitClass}>
           {String(countdown.minutes).padStart(2, "0")}
         </span>
-        <span className={cn(unitClass, "text-chalk-muted/30")}>:</span>
+        <span className={cn(unitClass, "text-ink-muted/30")}>:</span>
         <span className={unitClass}>
           {String(countdown.seconds).padStart(2, "0")}
         </span>
