@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
-  variant?: "default" | "flare" | "goalnet" | "escrow" | "success";
+  variant?: "default" | "live" | "money" | "success";
   size?: "sm" | "md";
 }
 
@@ -20,10 +20,9 @@ function Badge({
           md: "h-6 px-2.5 text-[11px]",
         }[size],
         {
-          default: "bg-chalk/8 text-chalk-muted border border-chalk/10",
-          flare: "bg-flare/15 text-flare border border-flare/20",
-          goalnet: "bg-goalnet/15 text-goalnet border border-goalnet/20",
-          escrow: "bg-escrow/15 text-escrow border border-escrow/20",
+          default: "bg-ink/8 text-ink-muted border border-hairline",
+          live: "bg-live/15 text-live border border-live/20",
+          money: "bg-money/15 text-money border border-money/20",
           success: "bg-success/15 text-success border border-success/20",
         }[variant],
         className,

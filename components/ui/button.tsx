@@ -16,16 +16,16 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(
           "inline-flex items-center justify-center font-display uppercase tracking-wider transition-all duration-200",
           "disabled:opacity-40 disabled:pointer-events-none",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-flare focus-visible:ring-offset-2 focus-visible:ring-offset-pitch",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-live focus-visible:ring-offset-2 focus-visible:ring-offset-base",
           {
             primary:
-              "bg-flare text-pitch hover:bg-flare/90 active:bg-flare/80 shadow-lg shadow-flare/20",
+              "bg-live text-base hover:bg-live/90 active:bg-live/80 shadow-lg shadow-live/20",
             secondary:
-              "bg-chalk/10 text-chalk hover:bg-chalk/20 active:bg-chalk/15 border border-chalk/10",
+              "bg-ink/10 text-ink hover:bg-ink/20 active:bg-ink/15 border border-ink/10",
             ghost:
-              "text-chalk-muted hover:text-chalk hover:bg-chalk/5",
+              "text-ink-muted hover:text-ink hover:bg-ink/5",
             outline:
-              "border border-chalk/20 text-chalk hover:bg-chalk/5 hover:border-chalk/40",
+              "border border-ink/20 text-ink hover:bg-ink/5 hover:border-ink/40",
           }[variant],
           {
             sm: "h-8 px-3 text-xs gap-1.5",

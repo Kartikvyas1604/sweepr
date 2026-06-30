@@ -209,7 +209,7 @@ export default function SettlePage() {
                 <Card variant="bordered">
                   <CardHeader>
                     <div className="flex w-full items-center justify-center">
-                      <Badge variant="goalnet" size="md">
+                      <Badge variant="money" size="md">
                         <PartyPopper className="h-3 w-3" />
                         CHAMPION CROWNED
                       </Badge>

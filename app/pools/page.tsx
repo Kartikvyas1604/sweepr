@@ -124,9 +124,9 @@ export default function PoolsPage() {
                     <Badge
                       variant={
                         pool.status === "active"
-                          ? "flare"
+                          ? "live"
                           : pool.status === "open"
-                            ? "escrow"
+                            ? "money"
                             : "success"
                       }
                       size="sm"

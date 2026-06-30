@@ -135,7 +135,7 @@ export default function JoinPage() {
                       <p className="font-display text-sm uppercase tracking-wider text-chalk">
                         Your Draw
                       </p>
-                      <Badge variant="flare" size="sm">
+                      <Badge variant="live" size="sm">
                         Random
                       </Badge>
                     </div>
