@@ -42,12 +42,12 @@ export default function Home() {
 
   function handleCreate() {
     const fee = parseFloat(entryFee);
-    if (!poolName || !fee) return;
+    if (!poolName || !fee || fee <= 0) return;
     const pool = createPool(
       poolName,
       fee,
       isPrivate,
-      isPrivate ? passphrase : undefined,
+      isPrivate ? passphrase || undefined : undefined,
     );
     router.push(`/pool/${pool.id}`);
   }
@@ -139,14 +139,16 @@ export default function Home() {
                   value={poolName}
                   onChange={(e) => setPoolName(e.target.value)}
                 />
-                <Input
-                  id="entry-fee"
-                  label="Entry Fee (USDC)"
-                  placeholder="e.g. 10"
-                  type="number"
-                  value={entryFee}
-                  onChange={(e) => setEntryFee(e.target.value)}
-                />
+                  <Input
+                    id="entry-fee"
+                    label="Entry Fee (USDC)"
+                    placeholder="e.g. 10"
+                    type="number"
+                    min="0.01"
+                    step="0.01"
+                    value={entryFee}
+                    onChange={(e) => setEntryFee(e.target.value)}
+                  />
 
                 {/* Public / Private toggle */}
                 <div className="flex gap-2">
@@ -184,8 +186,8 @@ export default function Home() {
                   >
                     <Input
                       id="passphrase"
-                      label="Passphrase"
-                      placeholder="e.g. thunder-falcon-42"
+                      label="Passphrase (optional)"
+                      placeholder="Leave blank to auto-generate"
                       value={passphrase}
                       onChange={(e) => setPassphrase(e.target.value)}
                     />
@@ -195,7 +197,7 @@ export default function Home() {
                 <Button
                   size="lg"
                   className="w-full"
-                  disabled={!poolName || !entryFee || (isPrivate && !passphrase)}
+                  disabled={!poolName || !entryFee || parseFloat(entryFee) <= 0}
                   onClick={handleCreate}
                 >
                   Create Pool

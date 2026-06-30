@@ -14,7 +14,7 @@ import { TopNav } from "@/components/ui/top-nav";
 import { ShareButton } from "@/components/ui/share-button";
 import { getPoolWithParticipants } from "@/lib/store";
 import type { Participant, Pool } from "@/lib/types";
-import { Trophy, Goal, Coins, Globe, EyeOff, AlertCircle } from "lucide-react";
+import { Trophy, Goal, Coins, Globe, EyeOff, AlertCircle, Copy, Check } from "lucide-react";
 
 export default function PoolPage() {
   const params = useParams();
@@ -23,6 +23,7 @@ export default function PoolPage() {
   const [lastGoal, setLastGoal] = useState<string | null>(null);
   const [showGoalOverlay, setShowGoalOverlay] = useState(false);
   const [lastScorer, setLastScorer] = useState({ name: "", flag: "" });
+  const [passphraseCopied, setPassphraseCopied] = useState(false);
 
   useEffect(() => {
     const data = getPoolWithParticipants(params.id as string);
@@ -154,6 +155,47 @@ export default function PoolPage() {
             fee={0.025}
           />
         </motion.div>
+
+        {/* Passphrase (private pools only) */}
+        {pool.isPrivate && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15, duration: 0.4 }}
+          >
+            <div className="flex items-center justify-between rounded-lg border border-hairline bg-elevated/20 px-4 py-3">
+              <div className="flex items-center gap-3">
+                <EyeOff className="h-4 w-4 text-ink-muted" />
+                <span className="font-mono text-[11px] uppercase tracking-widest text-ink-muted">
+                  Passphrase
+                </span>
+                <code className="rounded-md bg-elevated/50 px-2.5 py-1 font-mono text-sm tracking-wider text-accent">
+                  {pool.passphrase}
+                </code>
+              </div>
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(pool.passphrase);
+                  setPassphraseCopied(true);
+                  setTimeout(() => setPassphraseCopied(false), 2000);
+                }}
+                className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-ink-muted transition-colors hover:text-ink"
+              >
+                {passphraseCopied ? (
+                  <>
+                    <Check className="h-3 w-3 text-success" />
+                    Copied
+                  </>
+                ) : (
+                  <>
+                    <Copy className="h-3 w-3" />
+                    Copy
+                  </>
+                )}
+              </button>
+            </div>
+          </motion.div>
+        )}
 
         {/* Leaderboard */}
         <motion.div
