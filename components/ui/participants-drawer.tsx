@@ -29,23 +29,23 @@ function ParticipantsDrawer({
           />
           {/* Drawer */}
           <motion.div
-            className="fixed bottom-0 left-0 right-0 z-50 max-h-[70vh] rounded-t-xl border-t border-surface-border bg-pitch px-4 pb-8 pt-4 shadow-2xl"
+            className="fixed bottom-0 left-0 right-0 z-50 max-h-[70vh] rounded-t-xl border-t border-hairline bg-base px-4 pb-8 pt-4 shadow-2xl"
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
           >
-            <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-chalk/20" />
+            <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-ink/20" />
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Users className="h-4 w-4 text-chalk-muted" />
-                <span className="font-display text-sm uppercase tracking-wider text-chalk">
+                <Users className="h-4 w-4 text-ink-muted" />
+                <span className="font-display text-sm uppercase tracking-wider text-ink">
                   Participants ({participants.length})
                 </span>
               </div>
               <button
                 onClick={onClose}
-                className="rounded-md p-1 text-chalk-muted/40 transition-colors hover:text-chalk"
+                className="rounded-md p-1 text-ink-muted/40 transition-colors hover:text-ink"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -54,19 +54,19 @@ function ParticipantsDrawer({
               {participants.map((p, i) => (
                 <div
                   key={p.id}
-                  className="flex items-center gap-3 rounded-md px-3 py-2.5 transition-colors hover:bg-chalk/5"
+                  className="flex items-center gap-3 rounded-md px-3 py-2.5 transition-colors hover:bg-ink/5"
                 >
-                  <span className="font-mono text-[11px] tabular-nums text-chalk-muted/40 w-6">
+                  <span className="font-mono text-[11px] tabular-nums text-ink-muted/40 w-6">
                     {i + 1}
                   </span>
                   <span className="text-base">{p.team.flag}</span>
-                  <span className="flex-1 font-body text-sm text-chalk">
+                  <span className="flex-1 font-body text-sm text-ink">
                     {p.name}
                   </span>
-                  <span className="font-mono text-[10px] text-chalk-muted/40">
+                  <span className="font-mono text-[10px] text-ink-muted/40">
                     {p.team.name}
                   </span>
-                  <span className="font-display text-base tabular-nums text-chalk-muted w-8 text-right">
+                  <span className="font-display text-base tabular-nums text-ink-muted w-8 text-right">
                     {p.score}
                   </span>
                 </div>

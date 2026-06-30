@@ -25,7 +25,7 @@ function TopNav({
   return (
     <nav
       className={cn(
-        "relative z-10 flex h-12 items-center border-b border-chalk/8 px-4",
+        "relative z-10 flex h-12 items-center border-b border-hairline px-4",
         className,
       )}
     >
@@ -34,7 +34,7 @@ function TopNav({
           {showBack && (
             <button
               onClick={() => (backHref ? router.push(backHref) : router.back())}
-              className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-chalk-muted transition-colors hover:text-chalk"
+              className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-ink-muted transition-colors hover:text-ink"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
               Back
@@ -42,14 +42,14 @@ function TopNav({
           )}
           {!showBack && (
             <button
-              className="text-chalk-muted/40 hover:text-chalk-muted"
+              className="text-ink-muted/40 hover:text-ink-muted"
             >
               <Menu className="h-4 w-4" />
             </button>
           )}
         </div>
 
-        <span className="font-display text-sm uppercase tracking-widest text-chalk">
+        <span className="font-display text-sm uppercase tracking-widest text-ink">
           {title}
         </span>
 
