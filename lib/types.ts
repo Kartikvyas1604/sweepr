@@ -9,6 +9,8 @@ export interface Pool {
   participantCount: number;
   createdAt: Date;
   expiresAt: Date;
+  isPrivate: boolean;
+  passphrase: string;
 }
 
 export interface Participant {

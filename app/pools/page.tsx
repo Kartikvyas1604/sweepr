@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
@@ -7,40 +8,18 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { TopNav } from "@/components/ui/top-nav";
 import { WalletButton } from "@/components/ui/wallet-button";
-import { Plus, Users, Trophy, ArrowRight } from "lucide-react";
-
-const MOCK_POOLS = [
-  {
-    id: "1",
-    name: "Office Cup 26",
-    entryFee: 10,
-    participants: 8,
-    totalPot: 80,
-    status: "active" as const,
-    yourRank: 8,
-  },
-  {
-    id: "2",
-    name: "Friday Fivers",
-    entryFee: 5,
-    participants: 12,
-    totalPot: 60,
-    status: "open" as const,
-    yourRank: null,
-  },
-  {
-    id: "3",
-    name: "World Cup Winners",
-    entryFee: 25,
-    participants: 16,
-    totalPot: 400,
-    status: "settled" as const,
-    yourRank: 3,
-  },
-];
+import { getPools } from "@/lib/store";
+import type { Pool } from "@/lib/types";
+import { Plus, Users, Trophy, ArrowRight, Globe, EyeOff } from "lucide-react";
 
 export default function PoolsPage() {
   const router = useRouter();
+  const [pools, setPools] = useState<Pool[]>([]);
+
+  useEffect(() => {
+    setPools(getPools());
+  }, []);
+
   return (
     <div className="relative flex min-h-dvh flex-col">
       <TopNav title="My Pools" right={<WalletButton />} />
@@ -57,7 +36,7 @@ export default function PoolsPage() {
               My Pools
             </h1>
             <p className="mt-1 font-body text-sm text-ink-muted">
-              {MOCK_POOLS.length} active pools
+              {pools.length} active {pools.length === 1 ? "pool" : "pools"}
             </p>
           </div>
           <Button size="md" onClick={() => router.push("/")}>
@@ -67,84 +46,70 @@ export default function PoolsPage() {
         </motion.div>
 
         {/* Pools list */}
-        <div className="flex flex-col gap-3">
-          {MOCK_POOLS.map((pool, i) => (
-            <motion.div
-              key={pool.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.08, duration: 0.3 }}
-            >
-              <Card
-                className="cursor-pointer transition-all duration-200 hover:border-ink/20 hover:bg-ink/[0.02]"
-                onClick={() =>
-                  router.push(
-                    pool.status === "settled"
-                      ? `/pool/${pool.id}/settle`
-                      : `/pool/${pool.id}`,
-                  )
-                }
+        {pools.length === 0 ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="flex flex-col items-center gap-4 py-16"
+          >
+            <Users className="h-10 w-10 text-ink-muted/20" />
+            <p className="font-body text-sm text-ink-muted/40">No pools yet</p>
+            <Button size="sm" onClick={() => router.push("/")}>
+              Create your first pool
+            </Button>
+          </motion.div>
+        ) : (
+          <div className="flex flex-col gap-3">
+            {pools.map((pool, i) => (
+              <motion.div
+                key={pool.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.08, duration: 0.3 }}
               >
-                <CardContent className="flex items-center justify-between py-4">
-                  <div className="flex items-center gap-4">
-                    <div
-                      className={`flex h-10 w-10 items-center justify-center rounded-full ${
-                        pool.status === "active"
-                          ? "bg-live/10"
-                          : pool.status === "open"
-                            ? "bg-money/10"
-                            : "bg-success/10"
-                      }`}
-                    >
-                      {pool.status === "settled" ? (
-                        <Trophy className={`h-5 w-5 ${
-                          pool.yourRank === 1 ? "text-money" : "text-success"
-                        }`} />
-                      ) : (
-                        <Users className={`h-5 w-5 ${
-                          pool.status === "active" ? "text-live" : "text-money"
-                        }`} />
-                      )}
-                    </div>
-                    <div>
-                      <p className="font-body text-sm font-medium text-ink">
-                        {pool.name}
-                      </p>
-                      <div className="mt-0.5 flex items-center gap-2 font-mono text-[10px] text-ink-muted/40">
-                        <span>{pool.participants} players</span>
-                        <span>·</span>
-                        <span>{pool.totalPot} USDC pot</span>
-                        <span>·</span>
-                        <span>{pool.entryFee} USDC entry</span>
+                <Card
+                  className="cursor-pointer transition-all duration-200 hover:border-ink/20 hover:bg-ink/[0.02]"
+                  onClick={() => router.push(`/pool/${pool.id}`)}
+                >
+                  <CardContent className="flex items-center justify-between py-4">
+                    <div className="flex items-center gap-4">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-live/10">
+                        <Users className="h-5 w-5 text-live" />
+                      </div>
+                      <div>
+                        <p className="font-body text-sm font-medium text-ink">
+                          {pool.name}
+                        </p>
+                        <div className="mt-0.5 flex items-center gap-2 font-mono text-[10px] text-ink-muted/40">
+                          <span>{pool.participantCount} players</span>
+                          <span>·</span>
+                          <span>{pool.totalPot} USDC pot</span>
+                          <span>·</span>
+                          <span>{pool.entryFee} USDC entry</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="flex items-center gap-3">
-                    <Badge
-                      variant={
-                        pool.status === "active"
-                          ? "live"
-                          : pool.status === "open"
-                            ? "money"
-                            : "success"
-                      }
-                      size="sm"
-                    >
-                      {pool.status}
-                    </Badge>
-                    {pool.yourRank && (
-                      <span className="font-display text-lg tabular-nums text-ink-muted">
-                        #{pool.yourRank}
-                      </span>
-                    )}
-                    <ArrowRight className="h-4 w-4 text-ink-muted/30" />
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
+                    <div className="flex items-center gap-3">
+                      {pool.isPrivate ? (
+                        <Badge variant="live" size="sm">
+                          <EyeOff className="h-2.5 w-2.5" />
+                          Private
+                        </Badge>
+                      ) : (
+                        <Badge variant="money" size="sm">
+                          <Globe className="h-2.5 w-2.5" />
+                          Public
+                        </Badge>
+                      )}
+                      <ArrowRight className="h-4 w-4 text-ink-muted/30" />
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        )}
       </main>
     </div>
   );

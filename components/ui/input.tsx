@@ -5,10 +5,11 @@ import { cn } from "@/lib/utils";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
+  error?: string;
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, label, id, type, ...props }, ref) => {
+  ({ className, label, error, id, type, ...props }, ref) => {
     return (
       <div className="flex flex-col gap-1.5">
         {label && (
@@ -24,15 +25,21 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           id={id}
           type={type}
           className={cn(
-            "h-10 w-full rounded-md border border-hairline bg-panel/50 px-3.5 py-2",
+            "h-10 w-full rounded-md border px-3.5 py-2",
             "font-mono text-sm text-ink placeholder:text-ink-muted/40",
             "transition-colors duration-200",
-            "focus:outline-none focus:border-live/50 focus:ring-1 focus:ring-live/20",
+            "focus:outline-none focus:ring-1",
             "disabled:opacity-40 disabled:cursor-not-allowed",
+            error
+              ? "border-live/60 bg-live/5 focus:border-live focus:ring-live/20"
+              : "border-hairline bg-panel/50 focus:border-live/50 focus:ring-live/20",
             className,
           )}
           {...props}
         />
+        {error && (
+          <p className="font-mono text-[10px] text-live">{error}</p>
+        )}
       </div>
     );
   },

@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { createPool } from "@/lib/store";
 import {
   ArrowRight,
   Users,
@@ -13,6 +14,8 @@ import {
   Sparkles,
   Lock,
   Share2,
+  Globe,
+  EyeOff,
 } from "lucide-react";
 
 const STAGGER = {
@@ -34,6 +37,20 @@ export default function Home() {
   const router = useRouter();
   const [poolName, setPoolName] = useState("");
   const [entryFee, setEntryFee] = useState("");
+  const [isPrivate, setIsPrivate] = useState(false);
+  const [passphrase, setPassphrase] = useState("");
+
+  function handleCreate() {
+    const fee = parseFloat(entryFee);
+    if (!poolName || !fee) return;
+    const pool = createPool(
+      poolName,
+      fee,
+      isPrivate,
+      isPrivate ? passphrase : undefined,
+    );
+    router.push(`/pool/${pool.id}`);
+  }
 
   return (
     <div className="relative flex min-h-dvh flex-col">
@@ -130,11 +147,56 @@ export default function Home() {
                   value={entryFee}
                   onChange={(e) => setEntryFee(e.target.value)}
                 />
+
+                {/* Public / Private toggle */}
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => { setIsPrivate(false); setPassphrase(""); }}
+                    className={`flex flex-1 items-center justify-center gap-2 rounded-md border px-3 py-2.5 font-mono text-[11px] uppercase tracking-wider transition-all ${
+                      !isPrivate
+                        ? "border-money/40 bg-money/10 text-money"
+                        : "border-hairline bg-ink/5 text-ink-muted/50 hover:border-ink/20"
+                    }`}
+                  >
+                    <Globe className="h-3.5 w-3.5" />
+                    Public
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setIsPrivate(true)}
+                    className={`flex flex-1 items-center justify-center gap-2 rounded-md border px-3 py-2.5 font-mono text-[11px] uppercase tracking-wider transition-all ${
+                      isPrivate
+                        ? "border-live/40 bg-live/10 text-live"
+                        : "border-hairline bg-ink/5 text-ink-muted/50 hover:border-ink/20"
+                    }`}
+                  >
+                    <EyeOff className="h-3.5 w-3.5" />
+                    Private
+                  </button>
+                </div>
+
+                {isPrivate && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                  >
+                    <Input
+                      id="passphrase"
+                      label="Passphrase"
+                      placeholder="e.g. thunder-falcon-42"
+                      value={passphrase}
+                      onChange={(e) => setPassphrase(e.target.value)}
+                    />
+                  </motion.div>
+                )}
+
                 <Button
                   size="lg"
                   className="w-full"
-                  disabled={!poolName || !entryFee}
-                  onClick={() => router.push("/pool/1")}
+                  disabled={!poolName || !entryFee || (isPrivate && !passphrase)}
+                  onClick={handleCreate}
                 >
                   Create Pool
                   <ArrowRight className="h-4 w-4" />

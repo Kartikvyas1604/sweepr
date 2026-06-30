@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -10,28 +10,77 @@ import { Badge } from "@/components/ui/badge";
 import { TeamAssignment } from "@/components/ui/team-assignment";
 import { LiveIndicator } from "@/components/ui/live-indicator";
 import { useCountdown } from "@/hooks/use-countdown";
-import type { Team } from "@/lib/types";
+import { getPool, joinPool } from "@/lib/store";
+import type { Team, Pool } from "@/lib/types";
 import { TopNav } from "@/components/ui/top-nav";
-import { Users, DollarSign, Check } from "lucide-react";
-
-const MOCK_POOL = {
-  name: "Office Cup 26",
-  entryFee: 10,
-  totalPot: 160,
-  participantCount: 12,
-  expiresAt: new Date("2026-07-19"),
-  status: "open" as const,
-};
+import { Users, DollarSign, Check, EyeOff, Globe, AlertCircle } from "lucide-react";
 
 export default function JoinPage() {
   const params = useParams();
   const router = useRouter();
-  const [step, setStep] = useState<"name" | "draw" | "confirm">("name");
+  const [pool, setPool] = useState<Pool | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [step, setStep] = useState<"passphrase" | "name" | "draw" | "confirm">("name");
   const [name, setName] = useState("");
+  const [passphraseInput, setPassphraseInput] = useState("");
+  const [passphraseError, setPassphraseError] = useState(false);
   const [assignedTeam, setAssignedTeam] = useState<Team | null>(null);
-  const countdown = useCountdown(MOCK_POOL.expiresAt);
+  const countdown = useCountdown(pool?.expiresAt ?? new Date());
 
-  const pool = MOCK_POOL;
+  useEffect(() => {
+    const p = getPool(params.id as string);
+    if (p) {
+      setPool(p);
+      setStep(p.isPrivate ? "passphrase" : "name");
+    }
+    setLoading(false);
+  }, [params.id]);
+
+  if (loading) {
+    return (
+      <div className="relative flex min-h-dvh flex-col">
+        <TopNav title="Join Pool" showBack />
+        <main className="relative z-10 flex flex-1 items-center justify-center px-4 py-12">
+          <p className="font-mono text-[11px] text-ink-muted/40">Loading pool...</p>
+        </main>
+      </div>
+    );
+  }
+
+  if (!pool) {
+    return (
+      <div className="relative flex min-h-dvh flex-col">
+        <TopNav title="Join Pool" showBack />
+        <main className="relative z-10 flex flex-1 items-center justify-center px-4 py-12">
+          <Card>
+            <CardContent className="flex flex-col items-center gap-4 py-12">
+              <AlertCircle className="h-8 w-8 text-live" />
+              <p className="font-display text-sm uppercase tracking-wider text-ink">Pool not found</p>
+              <Button size="sm" onClick={() => router.push("/")}>Create a pool</Button>
+            </CardContent>
+          </Card>
+        </main>
+      </div>
+    );
+  }
+
+  function handleVerifyPassphrase() {
+    if (!pool) return;
+    if (passphraseInput.trim() === pool.passphrase) {
+      setPassphraseError(false);
+      setStep("name");
+    } else {
+      setPassphraseError(true);
+    }
+  }
+
+  function handleJoin() {
+    const participant = joinPool(params.id as string, name.trim(), `0x${Math.random().toString(36).slice(2, 10)}`);
+    if (participant) {
+      setAssignedTeam(participant.team);
+      setStep("draw");
+    }
+  }
 
   return (
     <div className="relative flex min-h-dvh flex-col">
@@ -40,6 +89,50 @@ export default function JoinPage() {
       <main className="relative z-10 flex flex-1 items-center justify-center px-4 py-12">
         <div className="w-full max-w-md">
           <AnimatePresence mode="wait">
+            {step === "passphrase" && (
+              <motion.div
+                key="passphrase"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+              >
+                <Card>
+                  <CardHeader>
+                    <div className="flex w-full items-center justify-between">
+                      <div>
+                        <p className="font-display text-lg uppercase tracking-wider text-ink">
+                          {pool.name}
+                        </p>
+                        <p className="mt-1 flex items-center gap-1.5 font-mono text-[10px] text-ink-muted/40">
+                          <EyeOff className="h-3 w-3 text-live" />
+                          Private pool — passphrase required
+                        </p>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="flex flex-col gap-6">
+                    <Input
+                      id="passphrase"
+                      label="Passphrase"
+                      placeholder="Enter the pool passphrase"
+                      value={passphraseInput}
+                      onChange={(e) => { setPassphraseInput(e.target.value); setPassphraseError(false); }}
+                      error={passphraseError ? "Incorrect passphrase" : undefined}
+                    />
+                    <Button
+                      size="lg"
+                      className="w-full"
+                      disabled={!passphraseInput.trim()}
+                      onClick={handleVerifyPassphrase}
+                    >
+                      <EyeOff className="h-4 w-4" />
+                      Verify & Join
+                    </Button>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            )}
+
             {step === "name" && (
               <motion.div
                 key="name"
@@ -54,15 +147,18 @@ export default function JoinPage() {
                         <p className="font-display text-lg uppercase tracking-wider text-ink">
                           {pool.name}
                         </p>
-                        <p className="font-mono text-[10px] text-ink-muted/40">
-                          Join the pool
+                        <p className="mt-1 flex items-center gap-1.5 font-mono text-[10px] text-ink-muted/40">
+                          {pool.isPrivate ? (
+                            <><EyeOff className="h-3 w-3 text-live" /> Private</>
+                          ) : (
+                            <><Globe className="h-3 w-3 text-money" /> Public</>
+                          )}
                         </p>
                       </div>
                       <LiveIndicator label="OPEN" />
                     </div>
                   </CardHeader>
                   <CardContent className="flex flex-col gap-6">
-                    {/* Pool stats */}
                     <div className="grid grid-cols-3 gap-3">
                       <div className="flex flex-col items-center gap-1 rounded-md bg-ink/5 px-3 py-3">
                         <DollarSign className="h-4 w-4 text-money" />
@@ -108,7 +204,7 @@ export default function JoinPage() {
                       size="lg"
                       className="w-full"
                       disabled={!name.trim()}
-                      onClick={() => setStep("draw")}
+                      onClick={handleJoin}
                     >
                       <Users className="h-4 w-4" />
                       Join Pool — {pool.entryFee} USDC
